@@ -8,18 +8,18 @@ const app = express();
 
 import userRouter from "./routes/user.route";
 import projectRouter from "./routes/project.route";
-import swaggerDocumentation from "./docs/swagger"
+import swaggerDocumentation from "./docs/swagger";
 
 app.disable("x-powered-by");
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 
-app.use("/", (_req, res) => {
-    res.send("API funcionando")
-})
+app.get("/", (_req, res) => {
+  res.send("API funcionando");
+});
 
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocumentation))
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocumentation));
 app.use("/api/uploads", express.static(join(__dirname, "../uploads")));
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
