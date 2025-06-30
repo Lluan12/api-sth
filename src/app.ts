@@ -15,6 +15,9 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 
+app.use("/", (_req, res) => {
+    res.send("API funcionando")
+})
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocumentation))
 app.use("/api/uploads", express.static(join(__dirname, "../uploads")));

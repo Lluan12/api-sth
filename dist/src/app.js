@@ -16,6 +16,9 @@ app.disable("x-powered-by");
 app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
+app.use("/", (_req, res) => {
+    res.send("API funcionando");
+});
 app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.default));
 app.use("/api/uploads", express_1.default.static((0, path_1.join)(__dirname, "../uploads")));
 app.use("/api/users", user_route_1.default);
