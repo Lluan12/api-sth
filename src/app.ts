@@ -20,7 +20,6 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocumentation));
-app.use("/api/uploads", express.static(join(__dirname, "../uploads")));
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
 

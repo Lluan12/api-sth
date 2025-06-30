@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import _projectModel from "../models/project.model";
-import { join } from "path";
-import fs from "fs";
+import { uploadCloudfary } from "../utils/upload";
+import cloudinary from "../configuration/cloudinary";
 
 const getProjects = async (_req: Request, res: Response) => {
   try {
@@ -74,8 +74,7 @@ const deleteProject = async (req: Request, res: Response) => {
       res.status(404).json("Project not found");
       return;
     }
-    const pathUpload = join(__dirname, "../../uploads", id);
-    fs.rmSync(pathUpload, { recursive: true, force: true });
+    await cloudinary.api.delete_folder("uploads/" + id);
     res.sendStatus(204);
   } catch (error) {
     res.status(500).json({ error });
@@ -94,11 +93,12 @@ const uploadImage = async (req: Request, res: Response) => {
       res.status(404).json({ message: "Project not found" });
       return;
     }
-    console.log(req.files);
     const files = req.files as Express.Multer.File[];
-    project.images = files.map((file: Express.Multer.File) =>
-      join("uploads", project._id.toString(), file.filename)
+    const result = await Promise.all(
+      files.map((file) => uploadCloudfary(id, file))
     );
+
+    project.images = result.map((item: any) => item.secure_url);
     project.updated = new Date(Date.now());
     await project.save();
     res.status(201).json(project);
