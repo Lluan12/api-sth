@@ -74,6 +74,19 @@ const deleteProject = async (req: Request, res: Response) => {
       res.status(404).json("Project not found");
       return;
     }
+    // 1. Listar recursos por prefijo (carpeta/)
+    const { resources } = await cloudinary.api.resources({
+      type: "upload",
+      prefix: `uploads/${id}/`,
+      max_results: 500,
+    });
+    if (resources.length) {
+      const publicIds = resources.map((r: any) => r.public_id);
+      // 2. Borrar recursos
+      await cloudinary.api.delete_resources(publicIds);
+      //console.log(`🗑️ Recursos eliminados de la carpeta uploads/${id}`);
+    }
+    // 3. Borrar carpeta vacía
     await cloudinary.api.delete_folder("uploads/" + id);
     res.sendStatus(204);
   } catch (error) {
