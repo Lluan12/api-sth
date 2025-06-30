@@ -34,7 +34,7 @@ const loginUser = async (req: Request, res: Response) => {
 const getUsers = async (_req: Request, res: Response) => {
   try {
     const users = await _userModel.find();
-    if (!users) {
+    if (users.length == 0) {
       res.status(404).json({ message: "there are not users" });
       return;
     }
