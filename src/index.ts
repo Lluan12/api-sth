@@ -5,3 +5,5 @@ import "./configuration/connection";
 app.listen(PORT, () => {
   console.log(`Listening in the port: ${PORT}`);
 });
+
+export default app;
