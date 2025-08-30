@@ -6,10 +6,6 @@ import cloudinary from "../configuration/cloudinary";
 const getProjects = async (_req: Request, res: Response) => {
   try {
     const projects = await _projectModel.find();
-    if (projects.length == 0) {
-      res.status(404).json({ message: "There are not projects" });
-      return;
-    }
     res.status(200).json(projects);
   } catch (error) {
     res.status(500).json({ error });

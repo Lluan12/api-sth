@@ -2,7 +2,6 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import swaggerUI from "swagger-ui-express";
-import { join } from "path";
 
 const app = express();
 

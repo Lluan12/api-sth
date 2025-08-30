@@ -34,10 +34,6 @@ const loginUser = async (req: Request, res: Response) => {
 const getUsers = async (_req: Request, res: Response) => {
   try {
     const users = await _userModel.find();
-    if (users.length == 0) {
-      res.status(404).json({ message: "there are not users" });
-      return;
-    }
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error });
@@ -52,7 +48,6 @@ const getUser = async (req: Request, res: Response) => {
       res.status(404).json({ message: "User not found" });
       return;
     }
-    console.log(user);
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error });
